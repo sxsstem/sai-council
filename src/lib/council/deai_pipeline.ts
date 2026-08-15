@@ -282,29 +282,44 @@ export async function styleChallengeStage(
 
 // ===== 阶段 ④:改写建议 =====
 
-const REWRITE_PROMPT = `你是文风改写专家。基于风格审计结果,生成改写建议。
+const REWRITE_PROMPT = `你是文风改写专家。基于风格审计结果,**必须**生成改写建议。
 
 原文:
-"""\n{originalText}\n"""
+"""
+{originalText}
+"""
 
 被识别的 AI 味表达(按共识度排序):
 {conflicts}
 
-任务:
-1. 对每个被识别的表达,生成"更人类"的替代写法(2-3 个强度:保守 / 适中 / 激进)
-2. 再生成 2-3 个完整改写版本:
-   - 保守版:只删最严重的 AI 味,其他保留
-   - 适中版:平衡自然度和专业性
-   - 激进版:完全重写,口语化、不像 AI
+## 任务(两项都必须完成,缺一项输出视为失败)
 
-输出 JSON:
+### 任务 1:suggestions(改写建议,至少 3 条,最多 10 条)
+
+对每个被识别的 AI 味表达,生成"更人类"的替代写法。**即使 conflicts 列表为空,也要根据原文风格,至少生成 3 条通用建议**(例如:删掉套话、把四字成语替换成具体描述、用第一人称替代抽象表述)。
+
+每条建议的 intensity 必须是以下三档之一:
+- "保守":只改最明显的 AI 味,保留原文专业性
+- "适中":平衡自然度和专业性
+- "激进":完全口语化,可能损失专业性但最不像 AI
+
+### 任务 2:versions(整体改写版本,**必须 3 个**)
+
+无论原文 AI 味多少,都要给出 3 个完整改写版本:
+- 保守版:label = "保守版",只删最严重的 AI 味,其他保留
+- 适中版:label = "适中版",平衡自然度和专业性
+- 激进版:label = "激进版",完全重写,口语化、不像 AI
+
+## 输出 JSON 格式(严格遵守,不要任何解释文字)
+
+\`\`\`json
 {
   "suggestions": [
     {
-      "original": "AI 味表达",
+      "original": "原文片段(从原文中复制,不要自己编)",
       "suggested": "人类写法",
       "reason": "为什么这样改",
-      "intensity": "保守|适中|激进"
+      "intensity": "保守" | "适中" | "激进"
     }
   ],
   "versions": [
@@ -315,16 +330,27 @@ const REWRITE_PROMPT = `你是文风改写专家。基于风格审计结果,生�
     },
     {
       "label": "适中版",
-      "text": "...",
-      "rationale": "..."
+      "text": "完整改写后的文本",
+      "rationale": "改写思路"
     },
     {
       "label": "激进版",
-      "text": "...",
-      "rationale": "..."
+      "text": "完整改写后的文本",
+      "rationale": "改写思路"
     }
   ]
-}`;
+}
+\`\`\`
+
+## 严格要求
+
+- suggestions 数组**至少 3 个元素**,最多 10 个
+- versions 数组**必须 3 个元素**:保守版、适中版、激进版
+- intensity 字段值必须是中文:"保守"、"适中"、"激进"
+- 只输出 JSON,不要任何解释
+
+如果某条建议难以三档区分,可以都给"适中"。
+如果原文确实 AI 味很重,激进版应该明显短于原文。`;
 
 export async function rewriteStage(
   originalText: string,
@@ -352,8 +378,16 @@ export async function rewriteStage(
       signal,
     });
 
-    const jsonMatch = result.text.match(/\{[\s\S]*\}/);
+    // 鲁棒解析:支持多种 JSON 包裹(裸 JSON、```json```、```JSON``` 等)
+    let jsonText = result.text;
+    const codeBlockMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlockMatch) {
+      jsonText = codeBlockMatch[1];
+    }
+    // 兜底:截取首个完整 JSON 对象
+    const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
+      console.warn("[rewriteStage] 模型未输出 JSON,原文:", result.text.slice(0, 200));
       emit({
         stage: "rewrite",
         type: "result",
@@ -362,18 +396,37 @@ export async function rewriteStage(
       return { suggestions: [], versions: [] };
     }
 
-    const parsed = JSON.parse(jsonMatch[0]);
+    let parsed: any;
+    try {
+      parsed = JSON.parse(jsonMatch[0]);
+    } catch (e) {
+      console.warn("[rewriteStage] JSON 解析失败:", (e as Error).message);
+      emit({
+        stage: "rewrite",
+        type: "result",
+        data: { suggestions: [], versions: [] },
+      });
+      return { suggestions: [], versions: [] };
+    }
+
     const suggestions: RewriteSuggestion[] = (parsed.suggestions || []).map((s: any) => ({
       original: s.original || "",
       suggested: s.suggested || "",
       reason: s.reason || "",
       intensity: s.intensity || "适中",
     }));
-    const versions: RewriteVersion[] = (parsed.versions || []).map((v: any) => ({
-      label: v.label || "",
-      text: v.text || "",
-      rationale: v.rationale || "",
-    }));
+
+    // 版本必须 3 个:保守/适中/激进。如果模型只输出 2 个或缺失,补全默认
+    const rawVersions: any[] = parsed.versions || [];
+    const labels = ["保守版", "适中版", "激进版"];
+    const versions: RewriteVersion[] = labels.map((label) => {
+      const found = rawVersions.find((v) => v.label === label);
+      if (found) {
+        return { label, text: found.text || "", rationale: found.rationale || "" };
+      }
+      // 没找到这个 label,补一个空版本(后续 UI 会显示"未生成")
+      return { label, text: "", rationale: "模型未生成此版本" };
+    });
 
     emit({
       stage: "rewrite",

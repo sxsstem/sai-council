@@ -6,7 +6,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)](https://www.typescriptlang.org)
 
-> **由 [小赛AI](https://github.com/your-org) 维护** · 青少年首个 AI 绿色引擎及创意社区
+> **由 [小赛AI](https://github.com/sxsstem) 维护** · 青少年首个 AI 绿色引擎及创意社区
 
 Sai Council 是一个本地优先的 AI 工具,核心理念不是"综合多模型答案",而是**让多个模型的差异暴露给你看**。
 
@@ -46,7 +46,7 @@ Sai Council 是一个本地优先的 AI 工具,核心理念不是"综合多模�
 ### 安装
 
 ```bash
-git clone https://github.com/your-username/council.git
+git clone https://github.com/sxsstem/sai-council.git
 cd council
 npm install
 ```
@@ -154,7 +154,7 @@ Sai Council 通过多模型独立判断 + 证据对账 / 风格审计,辅助用�
 
 ## License
 
-MIT © [小赛AI](https://github.com/your-org) — 详见 [LICENSE](LICENSE) 文件。
+MIT © [小赛AI](https://github.com/sxsstem) — 详见 [LICENSE](LICENSE) 文件。
 
 ## 关于小赛AI
 

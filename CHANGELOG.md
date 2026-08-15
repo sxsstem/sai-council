@@ -31,5 +31,5 @@
 - 自写 OpenAI 兼容 LLM 客户端(无框架依赖)
 - pdf-parse + cheerio 文件解析
 
-[Unreleased]: https://github.com/your-username/council/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/your-username/council/releases/tag/v0.1.0
+[Unreleased]: https://github.com/sxsstem/sai-council/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/sxsstem/sai-council/releases/tag/v0.1.0

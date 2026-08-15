@@ -66,8 +66,8 @@ PR 前请确保:
 ## 📞 联系方式
 
 - GitHub Issues(首选)
-- 邮箱:jamesfan@example.com(占位,待补)
+- 邮箱:[email protected]
 
 ---
 
-由 [小赛AI](https://github.com/your-org) 维护 · 青少年首个 AI 绿色引擎及创意社区
+由 [小赛AI](https://github.com/sxsstem) 维护 · 青少年首个 AI 绿色引擎及创意社区

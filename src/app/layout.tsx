@@ -1,3 +1,13 @@
+/**
+ * Council · 多模型合议
+ *
+ * Copyright (c) 2026 小赛AI · Council Contributors
+ * Released under the MIT License.
+ *
+ * 小赛AI:青少年首个AI绿色引擎及创意社区。
+ * https://github.com/your-org/council
+ */
+
 import type { Metadata } from "next";
 import "./globals.css";
 

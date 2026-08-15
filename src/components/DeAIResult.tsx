@@ -54,11 +54,11 @@ export function DeAIResult() {
       {/* 共识度排序的 AI 味列表 */}
       <ConflictsList conflicts={conflicts} />
 
-      {/* 改写建议 */}
-      {suggestions.length > 0 && <SuggestionsPanel suggestions={suggestions} />}
+      {/* 改写建议 — 即使为空也显示面板,让用户知道这个环节存在 */}
+      <SuggestionsPanel suggestions={suggestions} />
 
-      {/* 整体改写版本 */}
-      {rewriteVersions.length > 0 && <RewriteVersions versions={rewriteVersions} />}
+      {/* 整体改写版本 — 同样即使为空也显示 */}
+      <RewriteVersions versions={rewriteVersions} />
     </div>
   );
 }
@@ -169,8 +169,16 @@ function SuggestionsPanel({ suggestions }: { suggestions: any[] }) {
   return (
     <div className="bg-white border border-line rounded-lg overflow-hidden">
       <div className="px-5 py-3 border-b border-line bg-zinc-50">
-        <h3 className="text-sm font-semibold">改写建议 ({suggestions.length})</h3>
+        <h3 className="text-sm font-semibold">
+          改写建议 ({suggestions.length})
+          <span className="ml-2 text-xs font-normal text-ink-3">保守 / 适中 / 激进 三档</span>
+        </h3>
       </div>
+      {suggestions.length === 0 ? (
+        <div className="px-5 py-6 text-sm text-ink-3 text-center">
+          本次合议未生成改写建议(可能是 AI 味很轻,或模型输出不稳定)。请重新尝试或换一组模型。
+        </div>
+      ) : (
       <div className="divide-y divide-line">
         {suggestions.map((s, i) => (
           <div key={i} className="px-5 py-3">
@@ -192,6 +200,7 @@ function SuggestionsPanel({ suggestions }: { suggestions: any[] }) {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
@@ -210,18 +219,22 @@ function RewriteVersions({ versions }: { versions: any[] }) {
               <div className="text-sm font-semibold">{v.label}</div>
               <button
                 onClick={() => {
+                  if (!v.text) return;
                   navigator.clipboard.writeText(v.text);
                   setCopiedIdx(i);
                   setTimeout(() => setCopiedIdx(null), 1500);
                 }}
-                className="text-xs px-2 py-1 border border-line rounded hover:bg-zinc-50 flex items-center gap-1"
+                disabled={!v.text}
+                className="text-xs px-2 py-1 border border-line rounded hover:bg-zinc-50 flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {copiedIdx === i ? <Check size={12} /> : <Copy size={12} />}
                 {copiedIdx === i ? "已复制" : "复制"}
               </button>
             </div>
             <div className="text-sm text-ink-2 whitespace-pre-wrap leading-relaxed bg-zinc-50 rounded p-3">
-              {v.text}
+              {v.text || (
+                <span className="text-ink-3 italic">此版本未生成,请重新尝试</span>
+              )}
             </div>
             <div className="text-xs text-ink-3 mt-2">{v.rationale}</div>
           </div>

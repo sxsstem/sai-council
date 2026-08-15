@@ -7,6 +7,18 @@
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-15
+
+### 修复
+- 去 AI 味工作流的"改写建议"功能稳定化
+  - 即使 conflicts 为空,prompt 强制要求至少 3 条建议 + 3 个版本(保守/适中/激进)
+  - JSON 解析鲁棒化:支持 ```json / ```JSON / 裸 JSON / markdown 解释+JSON 多种格式
+  - 整体改写版本自动补全:模型输出 2 个版本时,补全第三个的"未生成"占位
+- UI 改善
+  - suggestions 为空时显示"本次未生成"提示而非隐藏整个面板
+  - 整体改写版本 text 为空时显示"此版本未生成"占位
+  - Copy 按钮在 text 为空时禁用
+
 ## [0.1.0] - 2026-08-15
 
 ### 新增
@@ -31,5 +43,6 @@
 - 自写 OpenAI 兼容 LLM 客户端(无框架依赖)
 - pdf-parse + cheerio 文件解析
 
-[Unreleased]: https://github.com/sxsstem/sai-council/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/sxsstem/sai-council/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/sxsstem/sai-council/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/sxsstem/sai-council/releases/tag/v0.1.0

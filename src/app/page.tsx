@@ -37,7 +37,7 @@ export default function HomePage() {
         <header className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs tracking-widest text-ink-3 font-semibold">COUNCIL</div>
+              <div className="text-xs tracking-widest text-ink-3 font-semibold">SAI COUNCIL</div>
               <h1 className="text-2xl font-bold mt-1">多模型合议</h1>
               <p className="text-sm text-ink-2 mt-1 max-w-2xl">
                 两个工作流,同一个引擎:多模型独立判断、互相质询、带证据链地给你结论。
@@ -118,7 +118,7 @@ export default function HomePage() {
         <footer className="mt-12 pt-6 border-t border-line text-xs text-ink-3">
           <div>
             <strong className="text-ink-2">声明:</strong>
-            Council 通过多模型独立判断 + 证据对账 / 风格审计,辅助用户决策。
+            Sai Council 通过多模型独立判断 + 证据对账 / 风格审计,辅助用户决策。
             对于投资、学术、新闻等高风险场景,仍需人工复核。
           </div>
         </footer>

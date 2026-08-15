@@ -2,7 +2,7 @@
   "name": "council",
   "version": "0.1.0",
   "private": false,
-  "description": "多模型合议:让多个国产大模型各自独立判断、互相质询,把分歧和证据链展示给用户",
+  "description": "Sai Council · 多模型合议:让多个国产大模型各自独立判断、互相质询,把分歧和证据链展示给用户",
   "author": {
     "name": "小赛AI",
     "email": "[email protected]",

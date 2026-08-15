@@ -34,7 +34,7 @@ assignees: ''
 - 操作系统: [e.g. macOS 14.5]
 - 浏览器: [e.g. Chrome 126]
 - Node.js 版本: [e.g. 20.16]
-- Council 版本: [e.g. 0.1.0]
+- Sai Council 版本: [e.g. 0.1.0]
 
 ## 额外信息
 

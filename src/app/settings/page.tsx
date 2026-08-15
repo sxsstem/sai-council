@@ -144,7 +144,8 @@ export default function SettingsPage() {
           <ul className="text-xs text-ink-2 space-y-1 pl-4 list-disc">
             <li>三家厂商均支持 OpenAI 兼容协议,客户端代码统一处理</li>
             <li>分类阶段会用第一家启用的模型;质询阶段会用各家主模型(也可在 prompt 中切换到 mini/flash 降本)</li>
-            <li>本 demo 用 mock 检索;真实使用请把 <code className="bg-white px-1 rounded">src/lib/retrieval/index.ts</code> 里的 MockRetrieval 替换为 BochaRetrieval</li>
+            <li>DeepSeek 用 <code className="bg-white px-1 rounded">deepseek-reasoner</code>、智谱用 <code className="bg-white px-1 rounded">glm-4-plus</code> 或更新版本,才能使用原生联网搜索</li>
+            <li>API Key 仅存于浏览器 localStorage,不会上传到任何服务器</li>
           </ul>
         </div>
       </div>

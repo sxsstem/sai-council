@@ -1,7 +1,32 @@
 {
   "name": "council",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "多模型合议:让多个国产大模型各自独立判断、互相质询,把分歧和证据链展示给用户",
+  "author": {
+    "name": "小赛AI",
+    "email": "[email protected]",
+    "url": "https://github.com/your-org"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/your-org/council",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/council.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/council/issues"
+  },
+  "keywords": [
+    "multi-model",
+    "llm",
+    "fact-check",
+    "ai-detection",
+    "deepseek",
+    "MiniMax",
+    "zhipu",
+    "nextjs"
+  ],
   "scripts": {
     "dev": "next dev -p 3010",
     "build": "next build",

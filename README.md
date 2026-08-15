@@ -6,6 +6,8 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)](https://www.typescriptlang.org)
 
+> **由 [小赛AI](https://github.com/your-org) 维护** · 青少年首个 AI 绿色引擎及创意社区
+
 Council 是一个本地优先的 AI 工具,核心理念不是"综合多模型答案",而是**让多个模型的差异暴露给你看**。
 
 ## 两个工作流
@@ -152,8 +154,20 @@ Council 通过多模型独立判断 + 证据对账 / 风格审计,辅助用户�
 
 ## License
 
-MIT — 详见 [LICENSE](LICENSE) 文件。
+MIT © [小赛AI](https://github.com/your-org) — 详见 [LICENSE](LICENSE) 文件。
+
+## 关于小赛AI
+
+小赛AI 是面向青少年的首个 AI 绿色引擎及创意社区。我们致力于让下一代在 AI 时代更有创造力、更负责任地使用技术。
+
+Council 是小赛AI 工具矩阵中的一员,后续会有更多开源项目。
+
+---
 
 ## 贡献
 
-欢迎 PR、Issue、Feedback。任何形式都欢迎。
+欢迎 PR、Issue、Feedback。任何形式都欢迎。详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 更新日志
+
+详见 [CHANGELOG.md](CHANGELOG.md)。
